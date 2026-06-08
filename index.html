@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Da Silvano — Italiaanse Delicatessen Middelburg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #080808;
+    --ivory: #f2ece0;
+    --ivory-dim: #a89f8e;
+    --gold: #c4922a;
+    --gold-light: #e8b84b;
+    --chalk: #1a1a1a;
+    --gap: clamp(3rem, 8vw, 8rem);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--ivory); font-family: 'Jost', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--gold); z-index: 200; width: 0%; will-change: width; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; transition: background 0.5s; }
+  nav.scrolled { background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ivory); text-decoration: none; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ivory-dim); text-decoration: none; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; will-change: transform; }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,8,8,0.35) 0%, rgba(8,8,8,0.0) 40%, rgba(8,8,8,0.0) 55%, rgba(8,8,8,0.9) 100%); }
+  .hero-content { position: relative; z-index: 2; text-align: center; pointer-events: none; }
+  .hero-eyebrow { font-size: 0.7rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 1s 0.5s forwards; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(5rem, 14vw, 13rem); font-weight: 300; line-height: 0.9; color: var(--ivory); opacity: 0; animation: fadeUp 1.2s 0.7s forwards; }
+  .hero-title em { font-style: italic; color: var(--gold-light); }
+  .hero-sub { font-size: 0.8rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ivory-dim); margin-top: 2rem; opacity: 0; animation: fadeUp 1s 1s forwards; }
+  .scroll-hint { position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.75rem; opacity: 0; animation: fadeIn 1s 1.5s forwards; }
+  .scroll-hint span { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ivory-dim); }
+  .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+
+  /* INTRO */
+  .intro { padding: var(--gap) clamp(2rem, 10vw, 12rem); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; border-top: 1px solid rgba(242,236,224,0.08); }
+  .intro-label { font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+  .intro-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 5vw, 5rem); font-weight: 300; line-height: 1.1; }
+  .intro-title em { font-style: italic; color: var(--gold-light); }
+  .intro-body { font-size: 1rem; line-height: 1.9; color: var(--ivory-dim); margin-bottom: 2.5rem; }
+  .intro-body strong { color: var(--ivory); font-weight: 400; }
+  .btn { display: inline-flex; align-items: center; gap: 1rem; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ivory); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 0.5rem; transition: color 0.3s, gap 0.3s; }
+  .btn:hover { color: var(--gold); gap: 1.5rem; }
+
+  /* MARQUEE */
+  .marquee-wrap { overflow: hidden; border-top: 1px solid rgba(242,236,224,0.08); border-bottom: 1px solid rgba(242,236,224,0.08); padding: 1.2rem 0; }
+  .marquee-track { display: flex; gap: 3rem; animation: marquee 30s linear infinite; width: max-content; }
+  .marquee-item { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-style: italic; letter-spacing: 0.15em; color: var(--ivory-dim); white-space: nowrap; display: flex; align-items: center; gap: 3rem; }
+  .marquee-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    width: 20px;
+    height: 13px;
+    overflow: hidden;
+    border-radius: 1px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+  .marquee-flag span {
+    display: block;
+    width: 33.33%;
+    height: 100%;
+  }
+  .marquee-item::after { content: ''; display: none; }
+
+  /* SECTION HEADERS */
+  .section-wrap { padding: var(--gap) clamp(2rem, 10vw, 12rem); }
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3rem; border-bottom: 1px solid rgba(242,236,224,0.08); padding-bottom: 1.5rem; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 300; }
+  .section-title em { font-style: italic; color: var(--gold-light); }
+  .section-count { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--ivory-dim); text-transform: uppercase; }
+
+  /* CATEGORY NAV */
+  .cat-nav { display: flex; gap: 0; border: 1px solid rgba(242,236,224,0.1); margin-bottom: 3rem; overflow-x: auto; }
+  .cat-btn { padding: 1rem 2rem; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ivory-dim); background: none; border: none; cursor: pointer; transition: all 0.3s; white-space: nowrap; border-right: 1px solid rgba(242,236,224,0.1); }
+  .cat-btn:last-child { border-right: none; }
+  .cat-btn:hover { color: var(--ivory); background: rgba(242,236,224,0.04); }
+  .cat-btn.active { color: var(--black); background: var(--gold); }
+
+  /* MENU PANELS */
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; }
+
+  /* CHALKBOARD CARDS */
+  .chalk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5px; background: rgba(242,236,224,0.06); }
+  .chalk-card { background: var(--chalk); padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: 1rem; position: relative; overflow: hidden; transition: background 0.3s; cursor: default; }
+  .chalk-card::after { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; }
+  .chalk-card:hover { background: #222; }
+  .chalk-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--ivory); letter-spacing: 0.05em; line-height: 1.1; }
+  .chalk-ingredients { font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 300; color: var(--ivory-dim); line-height: 1.6; font-style: italic; }
+  .chalk-tag { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-top: auto; }
+
+  /* ITALIAN MENU LIST (for catering/pasta etc) */
+  .menu-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+  .menu-category-block { margin-bottom: 3rem; }
+  .menu-cat-title { font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; font-weight: 400; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(196,146,42,0.2); }
+  .menu-item { padding: 0.9rem 0; border-bottom: 1px solid rgba(242,236,224,0.05); display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  .menu-item:last-child { border-bottom: none; }
+  .item-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--ivory); }
+  .item-desc { font-size: 0.78rem; color: var(--ivory-dim); font-style: italic; line-height: 1.5; }
+  .item-tag { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); white-space: nowrap; flex-shrink: 0; }
+
+  /* TAKE AWAY SPECIAL */
+  .takeaway-feature { background: #0d0d0d; padding: 3rem; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 3rem; margin-bottom: 2rem; }
+  .takeaway-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--ivory); margin-bottom: 0.75rem; }
+  .takeaway-title em { font-style: italic; color: var(--gold-light); }
+  .takeaway-desc { font-size: 0.9rem; line-height: 1.8; color: var(--ivory-dim); }
+  .takeaway-price { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--gold); white-space: nowrap; }
+  .takeaway-price span { font-size: 1rem; color: var(--ivory-dim); display: block; text-align: center; font-family: 'Jost', sans-serif; letter-spacing: 0.1em; }
+
+  /* DRINKS */
+  .drinks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(242,236,224,0.06); }
+  .drink-item { background: var(--black); padding: 2rem; text-align: center; }
+  .drink-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; color: var(--ivory); margin-bottom: 0.3rem; }
+  .drink-brand { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+
+  /* PLATTERS */
+  .platter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5px; background: rgba(242,236,224,0.06); }
+  .platter-card { background: #0d0d0d; padding: 3rem; position: relative; overflow: hidden; }
+  .platter-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+  .platter-number { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; color: rgba(196,146,42,0.15); line-height: 1; margin-bottom: 1rem; }
+  .platter-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--ivory); margin-bottom: 0.75rem; }
+  .platter-desc { font-size: 0.85rem; line-height: 1.8; color: var(--ivory-dim); }
+
+  /* CATERING CTA */
+  .catering-cta { background: #0a0a0a; padding: 3rem; text-align: center; margin-top: 3rem; border: 1px solid rgba(242,236,224,0.06); }
+  .catering-cta p { font-size: 0.9rem; line-height: 1.8; color: var(--ivory-dim); max-width: 60ch; margin: 0 auto 2rem; }
+
+  /* DIVIDER */
+  .divider { display: flex; align-items: center; gap: 2rem; padding: 0 clamp(2rem, 10vw, 12rem); margin: 1rem 0; }
+  .divider-line { flex: 1; height: 1px; background: rgba(242,236,224,0.08); }
+  .divider-mark { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold); font-style: italic; }
+
+  /* ABOUT */
+  .about { padding: var(--gap) clamp(2rem, 10vw, 12rem); display: grid; grid-template-columns: 5fr 4fr; gap: 6rem; align-items: start; }
+  .about-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 300; line-height: 1.2; margin-bottom: 3rem; }
+  .about-quote em { font-style: italic; color: var(--gold-light); }
+  .about-text { font-size: 0.95rem; line-height: 1.9; color: var(--ivory-dim); margin-bottom: 1.5rem; }
+  .about-text strong { color: var(--ivory); font-weight: 400; }
+  .fact-block { padding: 2.5rem 0; border-bottom: 1px solid rgba(242,236,224,0.08); }
+  .fact-block:first-child { border-top: 1px solid rgba(242,236,224,0.08); }
+  .fact-number { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 0.5rem; }
+  .fact-label { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ivory-dim); }
+
+  /* HOURS */
+  .hours { padding: var(--gap) clamp(2rem, 10vw, 12rem); background: #0d0d0d; }
+  .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+  .hours-row { display: flex; justify-content: space-between; align-items: baseline; padding: 1rem 0; border-bottom: 1px solid rgba(242,236,224,0.06); }
+  .hours-row:first-child { border-top: 1px solid rgba(242,236,224,0.06); }
+  .day { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ivory-dim); }
+  .day.today { color: var(--gold); }
+  .time { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; }
+  .time.closed { color: var(--ivory-dim); font-style: italic; font-size: 0.85rem; font-family: 'Jost', sans-serif; }
+  .hours-contact { display: flex; flex-direction: column; justify-content: center; gap: 2.5rem; }
+  .contact-label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; display: block; }
+  .contact-value { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; color: var(--ivory); text-decoration: none; transition: color 0.3s; display: block; }
+  .contact-value:hover { color: var(--gold); }
+  .contact-address { font-size: 0.9rem; line-height: 1.8; color: var(--ivory-dim); }
+
+  /* CTA */
+  .cta { padding: var(--gap) clamp(2rem, 10vw, 12rem); text-align: center; position: relative; overflow: hidden; }
+  .cta::before { content: 'SILVANO'; position: absolute; font-family: 'Cormorant Garamond', serif; font-size: 22vw; font-weight: 300; color: rgba(242,236,224,0.02); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; white-space: nowrap; }
+  .cta-tag { font-size: 0.7rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
+  .cta-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.1; margin-bottom: 2.5rem; }
+  .cta-title em { font-style: italic; color: var(--gold-light); }
+  .cta-desc { font-size: 0.9rem; line-height: 1.8; color: var(--ivory-dim); max-width: 50ch; margin: 0 auto 3rem; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 1rem; padding: 1.1rem 3rem; background: var(--gold); color: var(--black); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; text-decoration: none; transition: background 0.3s; }
+  .btn-primary:hover { background: var(--gold-light); }
+
+  footer { padding: 3rem clamp(2rem, 10vw, 12rem); border-top: 1px solid rgba(242,236,224,0.08); display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ivory-dim); }
+  .footer-logo span { color: var(--gold); }
+  .footer-copy { font-size: 0.7rem; letter-spacing: 0.1em; color: rgba(242,236,224,0.2); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scrollPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  /* ── HAMBURGER ── */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+  .hamburger span { display: block; width: 24px; height: 1px; background: var(--ivory); transition: all 0.3s ease; }
+  .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* ── MOBILE MENU OVERLAY ── */
+  .mobile-menu {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(8,8,8,0.97);
+    backdrop-filter: blur(20px);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .mobile-menu.open { display: flex; animation: fadeIn 0.3s ease; }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--ivory);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-menu .mobile-contact {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--ivory-dim);
+    text-transform: uppercase;
+    line-height: 2;
+  }
+  .mobile-menu .mobile-contact a { font-family: 'Jost', sans-serif; font-size: 0.8rem; color: var(--gold); text-decoration: none; }
+
+  /* ── MOBILE BREAKPOINTS ── */
+  @media (max-width: 768px) {
+
+    /* Nav */
+    nav { padding: 1.5rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    /* Hero */
+    .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.25em; }
+    .hero-sub { font-size: 0.65rem; letter-spacing: 0.2em; }
+    .scroll-hint { bottom: 2rem; }
+
+    /* Intro */
+    .intro { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.5rem; }
+
+    /* Section wrap */
+    .section-wrap { padding: 3rem 1.5rem; }
+
+    /* Category nav */
+    .cat-nav { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .cat-nav::-webkit-scrollbar { display: none; }
+    .cat-btn { padding: 0.9rem 1.2rem; font-size: 0.65rem; }
+
+    /* Chalkboard grid */
+    .chalk-grid { grid-template-columns: 1fr 1fr; }
+    .chalk-card { padding: 1.5rem 1.25rem; }
+    .chalk-name { font-size: 1.2rem; }
+    .chalk-ingredients { font-size: 0.72rem; }
+
+    /* Menu columns */
+    .menu-columns { grid-template-columns: 1fr; gap: 2rem; }
+
+    /* Take away */
+    .takeaway-feature { grid-template-columns: 1fr; gap: 1.5rem; text-align: center; padding: 2rem 1.5rem; }
+    .takeaway-price { font-size: 2.5rem; }
+
+    /* Drinks */
+    .drinks-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Platters */
+    .platter-grid { grid-template-columns: 1fr; }
+
+    /* About */
+    .about { grid-template-columns: 1fr; gap: 3rem; padding: 3rem 1.5rem; }
+    .about-quote { font-size: 1.8rem; margin-bottom: 2rem; }
+
+    /* Hours */
+    .hours { padding: 3rem 1.5rem; }
+    .hours-grid { grid-template-columns: 1fr; gap: 3rem; }
+
+    /* CTA */
+    .cta { padding: 3rem 1.5rem; }
+    .cta::before { font-size: 35vw; }
+
+    /* Footer */
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+
+    /* Divider */
+    .divider { padding: 0 1.5rem; }
+
+    /* Catering CTA */
+    .catering-cta { padding: 2rem 1.5rem; }
+
+    /* Section header */
+    .section-header { flex-direction: column; gap: 0.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    /* Single column cards on very small screens */
+    .chalk-grid { grid-template-columns: 1fr; }
+    .drinks-grid { grid-template-columns: 1fr; }
+
+    /* Smaller nav logo */
+    .nav-logo { font-size: 1.1rem; }
+
+    /* Tighter cat buttons */
+    .cat-btn { padding: 0.8rem 1rem; font-size: 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">Da <span>Silvano</span></a>
+  <ul class="nav-links">
+    <li><a href="#panini">Panini</a></li>
+    <li><a href="#catering">Catering</a></li>
+    <li><a href="#hours">Openingstijden</a></li>
+    <li><a href="#order">Bestellen</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#panini" onclick="closeMenu()">Panini</a>
+  <a href="#catering" onclick="closeMenu()">Catering</a>
+  <a href="#hours" onclick="closeMenu()">Openingstijden</a>
+  <a href="#order" onclick="closeMenu()">Bestellen</a>
+  <div class="mobile-contact">
+    <a href="mailto:info@dasilvano.nl">info@dasilvano.nl</a><br>
+    <a href="tel:0620900900">06 — 2090 0900</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_35bexfp5ndBAtUIRfjAKQPhS2vJ/hf_20260607_175136_0645e607-28ef-46b7-9815-716ae3ed18f6.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Middelburg · Zeeland · Italiaanse Delicatessen</p>
+    <h1 class="hero-title">Da<br><em>Silvano</em></h1>
+    <p class="hero-sub">Traiteur &amp; Italiaanse Delicatessen</p>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- INTRO -->
+<section class="intro" id="about">
+  <div>
+    <p class="intro-label reveal">Benvenuti</p>
+    <h2 class="intro-title reveal reveal-delay-1">Italië in <em>Zeeland</em></h2>
+  </div>
+  <div>
+    <p class="intro-body reveal reveal-delay-2">Da Silvano is een winkel gespecialiseerd in <strong>authentieke Italiaanse delicatessen</strong> in hartje Middelburg. Iedere week vers aangeleverd rechtstreeks uit Italië — van bijzondere truffels en bottarga tot 100% biologisch brood.</p>
+    <p class="intro-body reveal reveal-delay-2">Ons <strong>ambachtelijk assortiment</strong> maakt onze winkel zeer uniek in Nederland. Meer dan 25 jaar passie voor Italiaanse keuken, op één adres in Middelburg.</p>
+    <a href="#order" class="btn reveal reveal-delay-3">Bestel nu →</a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Prosciutto di Parma</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Mozzarella di Bufala</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Verse Truffels</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Biologisch Brood</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Bottarga</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Italiaanse Wijnen</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Panini Fatti a Mano</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Olijfolie Extravergine</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Prosciutto di Parma</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Mozzarella di Bufala</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Verse Truffels</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Biologisch Brood</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Bottarga</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Italiaanse Wijnen</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Panini Fatti a Mano</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div><div class="marquee-item">Olijfolie Extravergine</div><div class="marquee-flag"><span style="background:#009246"></span><span style="background:#fff"></span><span style="background:#ce2b37"></span></div>
+  </div>
+</div>
+
+<!-- FULL MENU -->
+<section class="section-wrap" id="panini">
+  <div class="section-header reveal">
+    <h2 class="section-title">Het <em>Menu</em></h2>
+    <span class="section-count">Panini · Catering · Take Away</span>
+  </div>
+
+  <!-- CATEGORY NAV -->
+  <div class="cat-nav">
+    <button class="cat-btn active" onclick="showPanel('panini-panel', this)">Panini</button>
+    <button class="cat-btn" onclick="showPanel('antipasti-panel', this)">Antipasti</button>
+    <button class="cat-btn" onclick="showPanel('pasta-panel', this)">Pasta</button>
+    <button class="cat-btn" onclick="showPanel('secondi-panel', this)">Secondi</button>
+    <button class="cat-btn" onclick="showPanel('takeaway-panel', this)">Take Away</button>
+    <button class="cat-btn" onclick="showPanel('platters-panel', this)">Schotels</button>
+    <button class="cat-btn" onclick="showPanel('drinks-panel', this)">Dranken</button>
+  </div>
+
+  <!-- PANINI -->
+  <div class="menu-panel active" id="panini-panel">
+    <div class="chalk-grid" id="panini-featured">
+      <div class="chalk-card"><div class="chalk-name">Da Silvano</div><div class="chalk-ingredients">parmaham, mozzarella, crema tartufo, basilicum</div><div class="chalk-tag">Signature</div></div>
+      <div class="chalk-card"><div class="chalk-name">Carpaccio</div><div class="chalk-ingredients">bresola, parmigiano, pijnboompitten, truffelolie</div></div>
+      <div class="chalk-card"><div class="chalk-name">Giovanna</div><div class="chalk-ingredients">parmaham, gorgonzola, walnoten, rucola</div></div>
+      <div class="chalk-card"><div class="chalk-name">Vitello Tonato</div><div class="chalk-ingredients">kalfsvlees, rucola, tonijnsaus</div></div>
+      <div class="chalk-card"><div class="chalk-name">Rustico</div><div class="chalk-ingredients">coppa di parma, pecorino, rucola, artisjokken</div></div>
+      <div class="chalk-card"><div class="chalk-name">Zola e Noci</div><div class="chalk-ingredients">gorgonzola, walnoten, tomaat, parmigiano</div><div class="chalk-tag">Vegetarisch</div></div>
+    </div>
+    <div class="chalk-grid" id="panini-rest" style="display:none; margin-top: 1.5px;">
+      <div class="chalk-card"><div class="chalk-name">Caprese</div><div class="chalk-ingredients">pomodori, mozzarella, pesto, basilicum</div><div class="chalk-tag">Vegetarisch</div></div>
+      <div class="chalk-card"><div class="chalk-name">Prosciutto di Parma</div><div class="chalk-ingredients">parmaham, zongedroogde tomaten, rucola</div></div>
+      <div class="chalk-card"><div class="chalk-name">Romana</div><div class="chalk-ingredients">ham, mozzarella, crema tartufo, basilicum</div></div>
+      <div class="chalk-card"><div class="chalk-name">Sofiticato</div><div class="chalk-ingredients">parmaham, pecorino, tomaat, rucola, balsamico crema</div></div>
+      <div class="chalk-card"><div class="chalk-name">Toscano</div><div class="chalk-ingredients">venkelsalami, provolone kaas, pesto, rucola</div></div>
+      <div class="chalk-card"><div class="chalk-name">Martino</div><div class="chalk-ingredients">pittige salami, pecorino kaas, courgette</div></div>
+      <div class="chalk-card"><div class="chalk-name">Peppe</div><div class="chalk-ingredients">pesto, salami, mozzarella, zongedroogde tomaten</div></div>
+      <div class="chalk-card"><div class="chalk-name">Salami</div><div class="chalk-ingredients">salami, tomaten, rucola</div></div>
+      <div class="chalk-card"><div class="chalk-name">Coppa</div><div class="chalk-ingredients">taleggio kaas, parmaham, komkommer, tomaten</div></div>
+      <div class="chalk-card"><div class="chalk-name">Taleggio</div><div class="chalk-ingredients">taleggio kaas, parmaham, komkommer, tomaten</div></div>
+      <div class="chalk-card"><div class="chalk-name">Mortadella</div><div class="chalk-ingredients">mortadella, provolona kaas</div></div>
+      <div class="chalk-card"><div class="chalk-name">Capra</div><div class="chalk-ingredients">geitenkaas, zongedroogde tomaten, balsamico crema</div><div class="chalk-tag">Vegetarisch</div></div>
+      <div class="chalk-card"><div class="chalk-name">Parmigiano</div><div class="chalk-ingredients">parmezaanse kaas, balsamico, zongedroogde tomaten</div><div class="chalk-tag">Vegetarisch</div></div>
+      <div class="chalk-card"><div class="chalk-name">Siciliano</div><div class="chalk-ingredients">pecorino kaas, tomaat, pesto</div><div class="chalk-tag">Vegetarisch</div></div>
+      <div class="chalk-card"><div class="chalk-name">Ortolano</div><div class="chalk-ingredients">rode pesto, parmigiano, gegrilde groente, rucola</div><div class="chalk-tag">Vegetarisch</div></div>
+      <div class="chalk-card"><div class="chalk-name">Ninu</div><div class="chalk-ingredients">taleggio, rucola, vijgenjam</div><div class="chalk-tag">Vegetarisch</div></div>
+      <div class="chalk-card"><div class="chalk-name">Zucchina</div><div class="chalk-ingredients">gegrilde courgette, provolona kaas, pesto</div><div class="chalk-tag">Vegetarisch</div></div>
+      <div class="chalk-card"><div class="chalk-name">Tonno</div><div class="chalk-ingredients">huisgemaakte tonijnsalade</div></div>
+    </div>
+    <div style="text-align:center; padding: 2rem 0;">
+      <button id="panini-toggle" onclick="togglePanini()" style="background:none; border: 1px solid rgba(196,146,42,0.4); color: var(--gold); font-family:'Jost',sans-serif; font-size:0.72rem; font-weight:400; letter-spacing:0.25em; text-transform:uppercase; padding: 0.9rem 2.5rem; cursor:pointer; transition: all 0.3s;">
+        Bekijk alle 24 panini ↓
+      </button>
+    </div>
+  </div>
+
+  <!-- ANTIPASTI -->
+  <div class="menu-panel" id="antipasti-panel">
+    <div class="menu-columns">
+      <div>
+        <div class="menu-category-block">
+          <div class="menu-cat-title">Antipasti Freddi — Koud</div>
+          <div class="menu-item"><div><div class="item-name">Aperitivo Milano</div><div class="item-desc">Cacciatore salami, provolone kaas, olijven en tapenade</div></div></div>
+          <div class="menu-item"><div><div class="item-name">Piatto Carpaccio di Salami</div><div class="item-desc">Salami, parmaham en zongedroogde tomaten</div></div></div>
+          <div class="menu-item"><div><div class="item-name">Piatto Caprese</div><div class="item-desc">Buffel mozzarella, pomodori, basilicum en balsamico</div></div><span class="item-tag">Veg</span></div>
+          <div class="menu-item"><div><div class="item-name">Piatto Prosciutto di Parma</div><div class="item-desc">Prosciutto di Parma D.O.P., 28 maanden gerijpt</div></div></div>
+          <div class="menu-item"><div><div class="item-name">Piatto Antipasto Misto</div><div class="item-desc">Variatie van vleeswaren, kazen, gegrilde groenten en olijven</div></div></div>
+          <div class="menu-item"><div><div class="item-name">Piatto Carpaccio da Silvano</div><div class="item-desc">Bresaola, pijnboompitjes, parmigiano, rucola en truffelolie</div></div></div>
+          <div class="menu-item"><div><div class="item-name">Piatto Vitello</div><div class="item-desc">Gebraden kalfsvlees met tonijnsaus en rucola</div></div></div>
+          <div class="menu-item"><div><div class="item-name">Piatto Ortolano</div><div class="item-desc">Gegrilde groenten, zongedroogde tomaten en olijven</div></div><span class="item-tag">Veg</span></div>
+          <div class="menu-item"><div><div class="item-name">Piatto Formaggi</div><div class="item-desc">Verschillende kazen met mosterd en/of jam</div></div><span class="item-tag">Veg</span></div>
+          <div class="menu-item"><div><div class="item-name">Piatto Mare</div><div class="item-desc">Salade van verschillende zeevruchten</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="menu-category-block">
+          <div class="menu-cat-title">Antipasti Caldi — Warm</div>
+          <div class="menu-item"><div><div class="item-name">Polpettine della Nonna</div><div class="item-desc">Gehaktballetjes in tomatensaus</div></div></div>
+          <div class="menu-item"><div><div class="item-name">Polpettine di Vitello al Tartufo</div><div class="item-desc">Gehaktballetjes van kalfsvlees met truffel</div></div></div>
+          <div class="menu-item"><div><div class="item-name">Parmigiana alla Siciliana</div><div class="item-desc">Aubergine ovengerecht</div></div><span class="item-tag">Veg</span></div>
+          <div class="menu-item"><div><div class="item-name">Carciofi Gratinati</div><div class="item-desc">Gegratineerde artisjokken</div></div><span class="item-tag">Veg</span></div>
+          <div class="menu-item"><div><div class="item-name">Gamberetti Gratinati</div><div class="item-desc">Gegratineerde garnalen</div></div></div>
+        </div>
+        <div class="catering-cta">
+          <p>Alle antipasti inclusief brood. Voor catering op maat neem contact op — wij verzorgen graag uw event van 2 tot 1000 personen.</p>
+          <a href="mailto:info@dasilvano.nl" class="btn-primary">Offerte aanvragen →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASTA -->
+  <div class="menu-panel" id="pasta-panel">
+    <div class="menu-columns">
+      <div>
+        <div class="menu-cat-title">Primi di Pasta</div>
+        <div class="menu-item"><div><div class="item-name">Penne ai Funghi Porcini</div><div class="item-desc">Met porcini en truffel</div></div><span class="item-tag">Veg</span></div>
+        <div class="menu-item"><div><div class="item-name">Pasta alla Maremmana</div><div class="item-desc">Vleessaus met porcini</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Pasta alla Norma</div><div class="item-desc">Tomatensaus, aubergine, ricotta</div></div><span class="item-tag">Veg</span></div>
+        <div class="menu-item"><div><div class="item-name">Pasta all'Amatriciana</div><div class="item-desc">Tomatensaus met guanciale</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Lasagna Tradizionali</div><div class="item-desc">Met vlees of vegetarisch</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Tagliatelle al Tartufo</div><div class="item-desc">Eierpasta met truffel</div></div><span class="item-tag">Veg</span></div>
+      </div>
+      <div>
+        <div class="menu-cat-title">&nbsp;</div>
+        <div class="menu-item"><div><div class="item-name">Cannelloni</div><div class="item-desc">Gevuld met spinazie en ricotta</div></div><span class="item-tag">Veg</span></div>
+        <div class="menu-item"><div><div class="item-name">Tagliatelle con Zafrano</div><div class="item-desc">Tagliatelle met safraan, courgette en pijnboompitten</div></div><span class="item-tag">Veg</span></div>
+        <div class="menu-item"><div><div class="item-name">Tagliatelle con Pollo</div><div class="item-desc">Tagliatelle met kip en broccoli in roomsaus</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Fusilli con Pesto di Erba</div><div class="item-desc">Fusilli met kruidenpesto, noten en geitenkaas</div></div><span class="item-tag">Veg</span></div>
+        <div class="menu-item"><div><div class="item-name">Pasta al Salmone &amp; Caviale</div><div class="item-desc">Met zalm en kaviaar</div></div></div>
+        <div style="padding: 2rem 0; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.1em;">✓ Alle pasta ook beschikbaar met glutenvrij pasta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECONDI -->
+  <div class="menu-panel" id="secondi-panel">
+    <div class="menu-columns">
+      <div>
+        <div class="menu-cat-title">Secondo di Carne — Vlees</div>
+        <div class="menu-item"><div><div class="item-name">Scaloppina al Marsala</div><div class="item-desc">Kalfsvlees met Marsala wijnsaus</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Scaloppina al Gorgonzola</div><div class="item-desc">Kalfsvlees met gorgonzola</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Scaloppina al Tartufo</div><div class="item-desc">Kalfsvlees met truffel</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Saltimbocca alla Romana</div><div class="item-desc">Kalfsvlees met parmaham en kaas</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Spezzatino della Manzo</div><div class="item-desc">Gestoofd rundvlees, 4 uur bereid</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Agnello Arrosto</div><div class="item-desc">Geroosterde lamsbout</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Pollo alla Silvano</div><div class="item-desc">Kipfilet gevuld met pecorinokaas en pancetta</div></div></div>
+      </div>
+      <div>
+        <div class="menu-cat-title">Secondo di Pesce — Vis</div>
+        <div class="menu-item"><div><div class="item-name">Gamberoni all'Ortigia</div><div class="item-desc">Grote garnalen in tomatensaus</div></div></div>
+        <div class="menu-item"><div><div class="item-name">Pesce al Cartoccio</div><div class="item-desc">Zalm of zeebaars bereid in eigen vocht</div></div></div>
+        <div class="catering-cta" style="margin-top: 3rem;">
+          <p>Catering beschikbaar voor elk evenement — van besloten diner tot groot bedrijfsevent. Neem contact op voor een offerte op maat.</p>
+          <a href="mailto:info@dasilvano.nl" class="btn-primary">Offerte aanvragen →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAKE AWAY -->
+  <div class="menu-panel" id="takeaway-panel">
+    <div class="takeaway-feature">
+      <div>
+        <h3 class="takeaway-title">Menu voor <em>2 Personen</em></h3>
+        <p class="takeaway-desc">Gerecht naar keuze uit de vitrine, groentegerecht, dessert en een heerlijke tafels wijn. Dagelijks vers bereid van seizoensproducten rechtstreeks uit Italië.</p>
+      </div>
+      <div class="takeaway-price">€42,50<span>per 2 pers.</span></div>
+    </div>
+    <div class="menu-columns" style="margin-top: 2rem;">
+      <div>
+        <div class="menu-cat-title">Dagelijks Vers uit de Vitrine</div>
+        <div class="menu-item"><div class="item-name">Lasagne</div></div>
+        <div class="menu-item"><div class="item-name">Vegetarische Lasagne</div></div>
+        <div class="menu-item"><div class="item-name">Cannelloni</div></div>
+        <div class="menu-item"><div class="item-name">Pasta's (wisselend)</div></div>
+      </div>
+      <div>
+        <div class="menu-cat-title">&nbsp;</div>
+        <div class="menu-item"><div class="item-name">Vlees- en visgerechten (wisselend)</div></div>
+        <div class="menu-item"><div class="item-name">Frittata</div></div>
+        <div class="menu-item"><div class="item-name">Salades (wisselend)</div></div>
+        <div style="padding: 2rem 0; font-size: 0.85rem; line-height: 1.8; color: var(--ivory-dim);">Ons aanbod wisselt dagelijks op basis van verse seizoensproducten. Bel of mail voor het actuele aanbod.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATTERS -->
+  <div class="menu-panel" id="platters-panel">
+    <div class="platter-grid">
+      <div class="platter-card">
+        <div class="platter-number">20</div>
+        <h3 class="platter-title">Schaal voor 10 Personen</h3>
+        <p class="platter-desc">Een gevarieerde schaal met 20 heerlijk belegde broodjes — ideaal voor lunches, vergaderingen of feestelijke gelegenheden.</p>
+      </div>
+      <div class="platter-card">
+        <div class="platter-number">30</div>
+        <h3 class="platter-title">Schaal voor 15 Personen</h3>
+        <p class="platter-desc">Een royale schaal met 30 broodjes voor grotere groepen. Variatie van onze populairste panini, inclusief vegetarische opties.</p>
+      </div>
+    </div>
+    <div class="catering-cta" style="margin-top: 0;">
+      <p>Schotels zijn beschikbaar voor bezorging of afhalen. Bestel minimaal 24 uur van tevoren via mail of telefoon.</p>
+      <a href="mailto:info@dasilvano.nl" class="btn-primary">Schaal bestellen →</a>
+    </div>
+  </div>
+
+  <!-- DRINKS -->
+  <div class="menu-panel" id="drinks-panel">
+    <div class="drinks-grid">
+      <div class="drink-item"><div class="drink-name">Prosecco</div><div class="drink-brand">Italië</div></div>
+      <div class="drink-item"><div class="drink-name">Acqua di Panna</div><div class="drink-brand">Plat water</div></div>
+      <div class="drink-item"><div class="drink-name">San Pellegrino</div><div class="drink-brand">Bruisend water</div></div>
+      <div class="drink-item"><div class="drink-name">San Pellegrino Limonata</div><div class="drink-brand">Citroen</div></div>
+      <div class="drink-item"><div class="drink-name">San Pellegrino Aranciata</div><div class="drink-brand">Sinaasappel</div></div>
+      <div class="drink-item"><div class="drink-name">Verse Jus d'Orange</div><div class="drink-brand">Vers geperst</div></div>
+    </div>
+    <div style="padding: 2rem 0; font-size: 0.85rem; color: var(--ivory-dim); text-align: center;">
+      Voor een uitgebreide wijnselectie — vraag Silvan persoonlijk. Hij adviseert graag de perfecte wijn bij uw keuze.
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><span class="divider-mark">— fatto con amore —</span><div class="divider-line"></div></div>
+
+<!-- CATERING FEATURE -->
+<section id="catering" style="position:relative; overflow:hidden; min-height:70vh; display:flex; align-items:stretch;">
+  <div style="position:absolute; inset:0; background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_35bexfp5ndBAtUIRfjAKQPhS2vJ/hf_20260607_193409_6998870f-a343-4693-b6ef-e452888d8829.png'); background-size:cover; background-position:center; filter:brightness(0.3);"></div>
+  <div style="position:absolute; inset:0; background: linear-gradient(105deg, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.7) 50%, rgba(8,8,8,0.15) 100%);"></div>
+  <div style="position:relative; z-index:2; width:100%; display:grid; grid-template-columns:1fr 1fr; align-items:center; padding: var(--gap) clamp(2rem, 10vw, 12rem); gap: 4rem;">
+    <!-- Left: text -->
+    <div>
+      <p class="intro-label reveal" style="margin-bottom:1.5rem;">Mediterrane Catering</p>
+      <h2 class="about-quote reveal reveal-delay-1" style="margin-bottom:2rem;">"Van intiem diner<br>tot <em>groot evenement</em>"</h2>
+      <p class="about-text reveal reveal-delay-2">Da Silvano verzorgt mediterrane catering voor zowel particulieren als bedrijven — van 2 tot 1000 personen. Antipasti, pasta, vlees, vis en dolci, volledig op maat samengesteld. Persoonlijk advies, scherpe prijzen, authentieke kwaliteit.</p>
+      <div style="display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:2.5rem;" class="reveal reveal-delay-3">
+        <a href="mailto:info@dasilvano.nl" class="btn-primary">Offerte aanvragen →</a>
+        <a href="#antipasti-panel" onclick="showPanel('antipasti-panel', document.querySelectorAll('.cat-btn')[1]); document.getElementById('panini').scrollIntoView({behavior:'smooth'})" class="btn" style="align-self:center; color:var(--ivory-dim);">Bekijk catering menu →</a>
+      </div>
+    </div>
+    <!-- Right: stat highlights -->
+    <div style="display:flex; flex-direction:column; gap:2rem; border-left:1px solid rgba(196,146,42,0.2); padding-left:4rem;" class="reveal reveal-delay-2">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold); line-height:1;">25+</div>
+        <div style="font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ivory-dim); margin-top:0.4rem;">Jaren Italiaanse passie</div>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold); line-height:1;">5</div>
+        <div style="font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ivory-dim); margin-top:0.4rem;">Gangen beschikbaar</div>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold); line-height:1;">100%</div>
+        <div style="font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ivory-dim); margin-top:0.4rem;">Maatwerk & persoonlijk advies</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@media (max-width: 768px) {
+  #catering > div:last-child { grid-template-columns: 1fr !important; }
+  #catering > div:last-child > div:last-child { border-left: none !important; padding-left: 0 !important; border-top: 1px solid rgba(196,146,42,0.2); padding-top: 2rem; flex-direction: row !important; flex-wrap: wrap; gap: 1.5rem !important; }
+  #catering > div:last-child > div:last-child > div { flex: 1; min-width: 80px; }
+}
+</style>
+
+<!-- ABOUT -->
+<section class="about" style="padding-top: var(--gap);">
+  <div>
+    <h2 class="about-quote reveal">"Vers uit <em>Italië</em>,<br>iedere week,<br>in Middelburg."</h2>
+    <p class="about-text reveal reveal-delay-1">Silvan is een uiterst gemotiveerde vakman met een diepgaande kennis van Italiaanse delicatessen. Of het nu gaat om een fles wijn, olijfolie of een catering op maat, hij weet waar hij over praat.</p>
+    <p class="about-text reveal reveal-delay-2">Bijzondere artikelen zoals <strong>verse Truffels</strong> en <strong>Bottarga</strong>, gecombineerd met dagelijks vers 100% biologisch brood op zuurdesem — ons assortiment maakt Da Silvano uniek in Nederland.</p>
+    <a href="https://dasilvano.nl/over-da-silvano/" class="btn reveal reveal-delay-3">Lees ons verhaal →</a>
+  </div>
+  <div>
+    <div class="fact-block reveal"><div class="fact-number">25+</div><div class="fact-label">Jaar Italiaanse passie</div></div>
+    <div class="fact-block reveal reveal-delay-1"><div class="fact-number">24</div><div class="fact-label">Handgemaakte panini</div></div>
+    <div class="fact-block reveal reveal-delay-2"><div class="fact-number">Wkl.</div><div class="fact-label">Vers uit Italië</div></div>
+    <div class="fact-block reveal reveal-delay-3"><div class="fact-number">2→1000</div><div class="fact-label">Personen — catering op maat</div></div>
+  </div>
+</section>
+
+<!-- HOURS -->
+<section class="hours" id="hours">
+  <div class="section-header reveal"><h2 class="section-title"><em>Openingstijden</em></h2><span class="section-count">Lange Noordstraat 26, Middelburg</span></div>
+  <div class="hours-grid">
+    <div class="hours-table reveal">
+      <div class="hours-row"><span class="day">Maandag</span><span class="time closed">Gesloten</span></div>
+      <div class="hours-row"><span class="day">Dinsdag</span><span class="time">10:30 — 17:30</span></div>
+      <div class="hours-row"><span class="day">Woensdag</span><span class="time">10:30 — 17:30</span></div>
+      <div class="hours-row"><span class="day">Donderdag</span><span class="time">10:30 — 17:30</span></div>
+      <div class="hours-row"><span class="day">Vrijdag</span><span class="time">10:30 — 18:00</span></div>
+      <div class="hours-row"><span class="day">Zaterdag</span><span class="time">10:00 — 17:00</span></div>
+      <div class="hours-row"><span class="day">Zondag</span><span class="time closed">Op afspraak</span></div>
+    </div>
+    <div class="hours-contact reveal reveal-delay-1">
+      <div><span class="contact-label">Adres</span><span class="contact-address">Lange Noordstraat 26<br>4331 AC Middelburg</span></div>
+      <div><span class="contact-label">Email</span><a href="mailto:info@dasilvano.nl" class="contact-value">info@dasilvano.nl</a></div>
+      <div><span class="contact-label">Telefoon</span><a href="tel:0620900900" class="contact-value">06 — 2090 0900</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="order">
+  <p class="cta-tag reveal">Bestellen is eenvoudig</p>
+  <h2 class="cta-title reveal reveal-delay-1">Klaar voor<br><em>uw bestelling?</em></h2>
+  <p class="cta-desc reveal reveal-delay-2">Bestel per mail of telefoon en haal op in de winkel. Voor delivery lunch, schotels of catering staan wij altijd voor u klaar.</p>
+  <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;" class="reveal reveal-delay-3">
+    <a href="mailto:info@dasilvano.nl" class="btn-primary">Mail ons →</a>
+    <a href="tel:0620900900" class="btn" style="align-self:center;">06 — 2090 0900 →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Da <span>Silvano</span></div>
+  <div class="footer-copy">© 2025 Da Silvano · Middelburg · Alle rechten voorbehouden</div>
+</footer>
+
+<script>
+  const progressBar = document.getElementById('progressBar');
+  const nav = document.getElementById('nav');
+  const video = document.getElementById('heroVideo');
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const total = document.body.scrollHeight - window.innerHeight;
+        progressBar.style.width = (scrollY / total * 100) + '%';
+        nav.classList.toggle('scrolled', scrollY > 80);
+        if (scrollY < window.innerHeight) video.style.transform = `translateY(${scrollY * 0.3}px)`;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const days = ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'];
+  const today = days[new Date().getDay()];
+  document.querySelectorAll('.day').forEach(el => { if (el.textContent.trim() === today) el.classList.add('today'); });
+
+  function showPanel(id, btn) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  function togglePanini() {
+    const rest = document.getElementById('panini-rest');
+    const btn = document.getElementById('panini-toggle');
+    const isHidden = rest.style.display === 'none';
+    rest.style.display = isHidden ? 'grid' : 'none';
+    btn.textContent = isHidden ? 'Verberg extra panini ↑' : 'Bekijk alle 24 panini ↓';
+  }
+
+  // Swap buffet image once Higgsfield job is ready
+  const cateringBg = document.getElementById('catering-bg');
+  if (cateringBg) {
+    // Fallback to original while Higgsfield generates
+    // Higgsfield image loaded via inline style
+  }
+
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+</body>
+</html>
