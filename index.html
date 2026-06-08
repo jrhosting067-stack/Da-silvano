@@ -400,6 +400,12 @@
 
   <!-- PANINI -->
   <div class="menu-panel active" id="panini-panel">
+    <div style="display:flex; justify-content:flex-end; margin-bottom: 1.5rem;">
+      <button id="veg-filter-toggle" onclick="toggleVegFilter()" aria-pressed="false" style="background:none; border: 1px solid rgba(196,146,42,0.4); color: var(--gold); font-family:'Jost',sans-serif; font-size:0.7rem; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; padding: 0.7rem 1.6rem; cursor:pointer; transition: all 0.3s; display:inline-flex; align-items:center; gap:0.6rem;">
+        <span style="display:inline-block; width:0.9em; height:0.9em; border:1px solid var(--gold); border-radius:2px; position:relative;"><span id="veg-filter-check" style="display:none; position:absolute; inset:1px; background:var(--gold); border-radius:1px;"></span></span>
+        Alleen vegetarisch
+      </button>
+    </div>
     <div class="chalk-grid" id="panini-featured">
       <div class="chalk-card"><div class="chalk-name">Da Silvano</div><div class="chalk-ingredients">parmaham, mozzarella, crema tartufo, basilicum</div><div class="chalk-tag">Signature</div></div>
       <div class="chalk-card"><div class="chalk-name">Carpaccio</div><div class="chalk-ingredients">bresola, parmigiano, pijnboompitten, truffelolie</div></div>
@@ -427,10 +433,11 @@
       <div class="chalk-card"><div class="chalk-name">Ninu</div><div class="chalk-ingredients">taleggio, rucola, vijgenjam</div><div class="chalk-tag">Vegetarisch</div></div>
       <div class="chalk-card"><div class="chalk-name">Zucchina</div><div class="chalk-ingredients">gegrilde courgette, provolona kaas, pesto</div><div class="chalk-tag">Vegetarisch</div></div>
       <div class="chalk-card"><div class="chalk-name">Tonno</div><div class="chalk-ingredients">huisgemaakte tonijnsalade</div></div>
+      <div class="chalk-card"><div class="chalk-name">Pastrami</div><div class="chalk-ingredients">pastrami, provolone kaas, rucola, truffelmayonaise</div></div>
     </div>
     <div style="text-align:center; padding: 2rem 0;">
       <button id="panini-toggle" onclick="togglePanini()" style="background:none; border: 1px solid rgba(196,146,42,0.4); color: var(--gold); font-family:'Jost',sans-serif; font-size:0.72rem; font-weight:400; letter-spacing:0.25em; text-transform:uppercase; padding: 0.9rem 2.5rem; cursor:pointer; transition: all 0.3s;">
-        Bekijk alle 24 panini ↓
+        Bekijk alle 25 panini ↓
       </button>
     </div>
   </div>
@@ -602,8 +609,8 @@
     <!-- Right: stat highlights -->
     <div style="display:flex; flex-direction:column; gap:2rem; border-left:1px solid rgba(196,146,42,0.2); padding-left:4rem;" class="reveal reveal-delay-2">
       <div>
-        <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold); line-height:1;">25+</div>
-        <div style="font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ivory-dim); margin-top:0.4rem;">Jaren Italiaanse passie</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold); line-height:1;">100%</div>
+        <div style="font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ivory-dim); margin-top:0.4rem;">Vers en Biologisch</div>
       </div>
       <div>
         <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold); line-height:1;">5</div>
@@ -634,8 +641,8 @@
     <a href="https://dasilvano.nl/over-da-silvano/" class="btn reveal reveal-delay-3">Lees ons verhaal →</a>
   </div>
   <div>
-    <div class="fact-block reveal"><div class="fact-number">25+</div><div class="fact-label">Jaar Italiaanse passie</div></div>
-    <div class="fact-block reveal reveal-delay-1"><div class="fact-number">24</div><div class="fact-label">Handgemaakte panini</div></div>
+    <div class="fact-block reveal"><div class="fact-number">100%</div><div class="fact-label">Vers en Biologisch</div></div>
+    <div class="fact-block reveal reveal-delay-1"><div class="fact-number">25</div><div class="fact-label">Handgemaakte panini</div></div>
     <div class="fact-block reveal reveal-delay-2"><div class="fact-number">Wkl.</div><div class="fact-label">Vers uit Italië</div></div>
     <div class="fact-block reveal reveal-delay-3"><div class="fact-number">2→1000</div><div class="fact-label">Personen — catering op maat</div></div>
   </div>
@@ -727,7 +734,21 @@
     const btn = document.getElementById('panini-toggle');
     const isHidden = rest.style.display === 'none';
     rest.style.display = isHidden ? 'grid' : 'none';
-    btn.textContent = isHidden ? 'Verberg extra panini ↑' : 'Bekijk alle 24 panini ↓';
+    btn.textContent = isHidden ? 'Verberg extra panini ↑' : 'Bekijk alle 25 panini ↓';
+  }
+
+  let vegFilterActive = false;
+  function toggleVegFilter() {
+    vegFilterActive = !vegFilterActive;
+    const btn = document.getElementById('veg-filter-toggle');
+    const check = document.getElementById('veg-filter-check');
+    btn.setAttribute('aria-pressed', String(vegFilterActive));
+    check.style.display = vegFilterActive ? 'block' : 'none';
+    btn.style.background = vegFilterActive ? 'rgba(196,146,42,0.15)' : 'none';
+    document.querySelectorAll('#panini-featured .chalk-card, #panini-rest .chalk-card').forEach(card => {
+      const isVeg = !!card.querySelector('.chalk-tag') && card.querySelector('.chalk-tag').textContent.trim() === 'Vegetarisch';
+      card.style.display = (vegFilterActive && !isVeg) ? 'none' : '';
+    });
   }
 
   // Swap buffet image once Higgsfield job is ready
