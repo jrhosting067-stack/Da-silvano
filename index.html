@@ -745,6 +745,15 @@
     btn.setAttribute('aria-pressed', String(vegFilterActive));
     check.style.display = vegFilterActive ? 'block' : 'none';
     btn.style.background = vegFilterActive ? 'rgba(196,146,42,0.15)' : 'none';
+
+    // Make sure the full panini list is expanded so hidden vegetarian items become visible
+    const rest = document.getElementById('panini-rest');
+    const paniniBtn = document.getElementById('panini-toggle');
+    if (vegFilterActive && rest.style.display === 'none') {
+      rest.style.display = 'grid';
+      paniniBtn.textContent = 'Verberg extra panini ↑';
+    }
+
     document.querySelectorAll('#panini-featured .chalk-card, #panini-rest .chalk-card').forEach(card => {
       const isVeg = !!card.querySelector('.chalk-tag') && card.querySelector('.chalk-tag').textContent.trim() === 'Vegetarisch';
       card.style.display = (vegFilterActive && !isVeg) ? 'none' : '';
