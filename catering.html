@@ -88,16 +88,17 @@
 
   /* MENU CARD (vintage paper) */
   .menu-card-wrap { padding: 0 clamp(2rem, 10vw, 12rem) var(--gap); }
-  .menu-card { background: var(--chalk); color: var(--ivory); border: 1px solid rgba(242,236,224,0.1); padding: clamp(2rem, 5vw, 4.5rem); position: relative; }
-  .menu-card::before { content: ''; position: absolute; inset: 10px; border: 1px solid rgba(242,236,224,0.1); pointer-events: none; }
+  .menu-card { background: var(--chalk); color: var(--ivory); border: 1px solid rgba(196,146,42,0.4); padding: clamp(2rem, 5vw, 4.5rem); position: relative; box-shadow: 0 0 0 4px rgba(196,146,42,0.06), 0 25px 60px rgba(0,0,0,0.45); }
+  .menu-card::before { content: ''; position: absolute; inset: 10px; border: 1px solid rgba(196,146,42,0.25); pointer-events: none; }
+  .menu-card::after { content: ''; position: absolute; inset: 18px; border: 1px solid rgba(196,146,42,0.12); pointer-events: none; }
   .menu-card-head { text-align: center; margin-bottom: 2.5rem; }
   .menu-card-head .ribbon { font-family: 'Caveat', cursive; font-size: 1.6rem; color: var(--gold-light); }
   .menu-card-head h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2rem, 4vw, 3.2rem); margin: 0.25rem 0; color: var(--ivory); }
   .menu-card-head h2 em { font-style: italic; color: var(--gold-light); }
   .menu-card-head .sub { font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--ivory-dim); }
 
-  .package-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid rgba(242,236,224,0.1); border-left: 1px solid rgba(242,236,224,0.1); }
-  .package-item { padding: 2.25rem 1.75rem; border-right: 1px solid rgba(242,236,224,0.1); border-bottom: 1px solid rgba(242,236,224,0.1); display: flex; flex-direction: column; gap: 0.75rem; }
+  .package-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid rgba(196,146,42,0.15); border-left: 1px solid rgba(196,146,42,0.15); }
+  .package-item { padding: 2.25rem 1.75rem; border-right: 1px solid rgba(196,146,42,0.15); border-bottom: 1px solid rgba(196,146,42,0.15); display: flex; flex-direction: column; gap: 0.75rem; }
   .package-item .pkg-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--ivory); }
   .package-item .pkg-tag { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
   .package-item .pkg-desc { font-size: 0.85rem; line-height: 1.8; color: var(--ivory-dim); }
