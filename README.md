@@ -19,12 +19,7 @@ dasilvano-website/
     └── js/             # Extract JS here if you want to split it out
 ```
 
-## Video
 
-The hero video is hosted on Higgsfield CDN. If you want to self-host it:
-1. Download the video from Higgsfield
-2. Place it in `/assets/video/hero.mp4`
-3. Update the `<source src="...">` in `index.html`
 
 ## Deployment
 
@@ -35,13 +30,7 @@ cd dasilvano-website
 vercel
 ```
 
-**Netlify**
-Drag and drop the `dasilvano-website` folder to [netlify.com/drop](https://app.netlify.com/drop)
 
-**GitHub Pages**
-1. Push to GitHub
-2. Go to Settings → Pages → Deploy from branch → main → / (root)
-3. Site live at `https://yourusername.github.io/dasilvano-website`
 
 ## To update the buffet/catering background image
 
