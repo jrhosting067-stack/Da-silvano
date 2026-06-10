@@ -154,7 +154,22 @@
 
     .section-wrap { padding: 3rem 1.5rem; }
 
-    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 1rem 1.5rem; }
+    .gallery-grid {
+      display: flex;
+      grid-template-columns: none;
+      gap: 1.25rem;
+      padding: 1rem 1.5rem 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .gallery-grid::-webkit-scrollbar { display: none; }
+    .polaroid {
+      flex: 0 0 70vw;
+      max-width: 280px;
+      scroll-snap-align: center;
+    }
     .polaroid:nth-child(n) { margin-top: 0; }
 
     .menu-card-wrap { padding: 0 1.5rem 3rem; }
@@ -170,7 +185,6 @@
 
   @media (max-width: 480px) {
     .nav-logo { font-size: 1.1rem; }
-    .gallery-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
