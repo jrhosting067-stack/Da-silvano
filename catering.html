@@ -103,6 +103,10 @@
   .package-item .pkg-tag { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
   .package-item .pkg-desc { font-size: 0.85rem; line-height: 1.8; color: var(--ivory-dim); }
   .package-item .pkg-price { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--gold-light); margin-top: auto; padding-top: 0.75rem; }
+  .pkg-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+  .pkg-list li { font-size: 0.8rem; line-height: 1.6; color: var(--ivory-dim); }
+  .pkg-list li strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: var(--ivory); margin-bottom: 0.1rem; }
+  .pkg-note { font-size: 0.75rem; font-style: italic; color: var(--gold-light); margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(196,146,42,0.15); }
 
   /* CTA */
   .cta { padding: var(--gap) clamp(2rem, 10vw, 12rem); text-align: center; position: relative; overflow: hidden; }
@@ -289,22 +293,44 @@
     </div>
     <div class="package-grid">
       <div class="package-item">
-        <div class="pkg-tag">Borrel</div>
-        <div class="pkg-name">De Aperitivo</div>
-        <p class="pkg-desc">Een vintage-stijl borrelplank met gemengde salumi, kazen, olijven, bruschetta en huisgemaakte dips. Geserveerd op houten planken.</p>
-        <div class="pkg-price">vanaf 2 personen</div>
+        <div class="pkg-tag">Compact</div>
+        <div class="pkg-name">Buffet Leggero</div>
+        <ul class="pkg-list">
+          <li><strong>Antipasti Misto of Ortolano (v)</strong>Variatie van vleeswaren, kazen, gegrilde groenten en olijven — of de vegetarische variant</li>
+          <li><strong>Arancini al Ragù</strong>Krokante risottoballetjes met ragù, spinazie, mozzarella en tomatensaus</li>
+          <li><strong>Insalata Grigliata</strong>Salade van gegrilde groenten als bijgerecht</li>
+          <li><strong>Dolci dello Chef</strong>Dessert van de chef</li>
+        </ul>
+        <p class="pkg-note">Geserveerd met diverse soorten brood en huisgemaakte tapenades.</p>
       </div>
       <div class="package-item">
-        <div class="pkg-tag">Lunch</div>
-        <div class="pkg-name">Il Pranzo</div>
-        <p class="pkg-desc">Schalen met onze populairste panini, antipasti en seizoenssalades — perfect voor lunches, vergaderingen en feestelijke gelegenheden.</p>
-        <div class="pkg-price">vanaf 10 personen</div>
+        <div class="pkg-tag">Klassiek</div>
+        <div class="pkg-name">Buffet a Tavola</div>
+        <ul class="pkg-list">
+          <li><strong>Antipasti Misto</strong>Verschillende soorten kazen en vleeswaren</li>
+          <li><strong>Melanzane Grigliate</strong>Gegrilde aubergine met rucola, knoflook en munt</li>
+          <li><strong>Insalata Caprese</strong>Buffelmozzarella, pomodori en verse basilicum</li>
+          <li><strong>Piatto Prosciutto</strong>Schaal vol prosciutto di Parma, 28 maanden gerijpt</li>
+          <li><strong>Pasta di Mamma</strong>Fusilli met tomatensaus, wild zwijn/haas, porcini en truffel</li>
+          <li><strong>Pasta al Pesto</strong>Fusilli met kruidenpesto, noten en geitenkaas</li>
+          <li><strong>Dolci</strong>Verschillende gemengde zoetigheden, feestelijk gepresenteerd</li>
+        </ul>
+        <p class="pkg-note">Geserveerd met diverse soorten brood en huisgemaakte tapenades.</p>
       </div>
       <div class="package-item">
-        <div class="pkg-tag">Diner</div>
-        <div class="pkg-name">La Cena</div>
-        <p class="pkg-desc">Een uitgebreid diner van meerdere gangen — antipasti, pasta, vlees of vis en dolci. Volledig op maat, met persoonlijk wijnadvies.</p>
-        <div class="pkg-price">vanaf 2 tot 1000 personen</div>
+        <div class="pkg-tag">Groots</div>
+        <div class="pkg-name">Buffet Magnifico</div>
+        <ul class="pkg-list">
+          <li><strong>Vitello Tonato</strong>Gebraden kalfsvlees met tonijnsaus en rucola</li>
+          <li><strong>Antipasto Misto</strong>Variatie van vleeswaren, kazen, gegrilde groenten en olijven</li>
+          <li><strong>Salade Frutti di Mare</strong>Salade van diverse zeevruchten</li>
+          <li><strong>Lasagna Tradizionali</strong>Lasagna Bolognese da Silvano</li>
+          <li><strong>Pollo alla Silvano</strong>Kipfilet gevuld met pecorino en pancetta</li>
+          <li><strong>Gamberoni all'Ortigia</strong>Grote garnalen in tomatensaus</li>
+          <li><strong>Patate al Forno</strong>Gekruide aardappelen uit de oven met verse tomaten</li>
+          <li><strong>Dolci</strong>Verschillende gemengde zoetigheden, feestelijk gepresenteerd</li>
+        </ul>
+        <p class="pkg-note">Geserveerd met diverse soorten brood en huisgemaakte tapenades.</p>
       </div>
     </div>
   </div>
