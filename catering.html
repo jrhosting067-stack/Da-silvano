@@ -106,6 +106,13 @@
   .pkg-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
   .pkg-list li { font-size: 0.8rem; line-height: 1.6; color: var(--ivory-dim); }
   .pkg-list li strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: var(--ivory); margin-bottom: 0.1rem; }
+
+  .pkg-details { margin: 0; }
+  .pkg-details summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); padding: 0.4rem 0; }
+  .pkg-details summary::-webkit-details-marker { display: none; }
+  .pkg-details summary::after { content: '+'; font-size: 1.1rem; color: var(--gold-light); flex-shrink: 0; }
+  .pkg-details[open] summary::after { content: '\2212'; }
+  .pkg-details .pkg-list { margin-top: 1rem; }
   .pkg-note { font-size: 0.75rem; font-style: italic; color: var(--gold-light); margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(196,146,42,0.15); }
 
   /* CTA */
@@ -300,41 +307,50 @@
       <div class="package-item">
         <div class="pkg-tag">Compact</div>
         <div class="pkg-name">Buffet Leggero</div>
-        <ul class="pkg-list">
-          <li><strong>Antipasti Misto of Ortolano (v)</strong>Variatie van vleeswaren, kazen, gegrilde groenten en olijven — of de vegetarische variant</li>
-          <li><strong>Arancini al Ragù</strong>Krokante risottoballetjes met ragù, spinazie, mozzarella en tomatensaus</li>
-          <li><strong>Insalata Grigliata</strong>Salade van gegrilde groenten als bijgerecht</li>
-          <li><strong>Dolci dello Chef</strong>Dessert van de chef</li>
-        </ul>
+        <details class="pkg-details">
+          <summary>Bekijk het menu</summary>
+          <ul class="pkg-list">
+            <li><strong>Antipasti Misto of Ortolano (v)</strong>Variatie van vleeswaren, kazen, gegrilde groenten en olijven — of de vegetarische variant</li>
+            <li><strong>Arancini al Ragù</strong>Krokante risottoballetjes met ragù, spinazie, mozzarella en tomatensaus</li>
+            <li><strong>Insalata Grigliata</strong>Salade van gegrilde groenten als bijgerecht</li>
+            <li><strong>Dolci dello Chef</strong>Dessert van de chef</li>
+          </ul>
+        </details>
         <p class="pkg-note">Geserveerd met diverse soorten brood en huisgemaakte tapenades.</p>
       </div>
       <div class="package-item">
         <div class="pkg-tag">Klassiek</div>
         <div class="pkg-name">Buffet a Tavola</div>
-        <ul class="pkg-list">
-          <li><strong>Antipasti Misto</strong>Verschillende soorten kazen en vleeswaren</li>
-          <li><strong>Melanzane Grigliate</strong>Gegrilde aubergine met rucola, knoflook en munt</li>
-          <li><strong>Insalata Caprese</strong>Buffelmozzarella, pomodori en verse basilicum</li>
-          <li><strong>Piatto Prosciutto</strong>Schaal vol prosciutto di Parma, 28 maanden gerijpt</li>
-          <li><strong>Pasta di Mamma</strong>Fusilli met tomatensaus, wild zwijn/haas, porcini en truffel</li>
-          <li><strong>Pasta al Pesto</strong>Fusilli met kruidenpesto, noten en geitenkaas</li>
-          <li><strong>Dolci</strong>Verschillende gemengde zoetigheden, feestelijk gepresenteerd</li>
-        </ul>
+        <details class="pkg-details">
+          <summary>Bekijk het menu</summary>
+          <ul class="pkg-list">
+            <li><strong>Antipasti Misto</strong>Verschillende soorten kazen en vleeswaren</li>
+            <li><strong>Melanzane Grigliate</strong>Gegrilde aubergine met rucola, knoflook en munt</li>
+            <li><strong>Insalata Caprese</strong>Buffelmozzarella, pomodori en verse basilicum</li>
+            <li><strong>Piatto Prosciutto</strong>Schaal vol prosciutto di Parma, 28 maanden gerijpt</li>
+            <li><strong>Pasta di Mamma</strong>Fusilli met tomatensaus, wild zwijn/haas, porcini en truffel</li>
+            <li><strong>Pasta al Pesto</strong>Fusilli met kruidenpesto, noten en geitenkaas</li>
+            <li><strong>Dolci</strong>Verschillende gemengde zoetigheden, feestelijk gepresenteerd</li>
+          </ul>
+        </details>
         <p class="pkg-note">Geserveerd met diverse soorten brood en huisgemaakte tapenades.</p>
       </div>
       <div class="package-item">
         <div class="pkg-tag">Groots</div>
         <div class="pkg-name">Buffet Magnifico</div>
-        <ul class="pkg-list">
-          <li><strong>Vitello Tonato</strong>Gebraden kalfsvlees met tonijnsaus en rucola</li>
-          <li><strong>Antipasto Misto</strong>Variatie van vleeswaren, kazen, gegrilde groenten en olijven</li>
-          <li><strong>Salade Frutti di Mare</strong>Salade van diverse zeevruchten</li>
-          <li><strong>Lasagna Tradizionali</strong>Lasagna Bolognese da Silvano</li>
-          <li><strong>Pollo alla Silvano</strong>Kipfilet gevuld met pecorino en pancetta</li>
-          <li><strong>Gamberoni all'Ortigia</strong>Grote garnalen in tomatensaus</li>
-          <li><strong>Patate al Forno</strong>Gekruide aardappelen uit de oven met verse tomaten</li>
-          <li><strong>Dolci</strong>Verschillende gemengde zoetigheden, feestelijk gepresenteerd</li>
-        </ul>
+        <details class="pkg-details">
+          <summary>Bekijk het menu</summary>
+          <ul class="pkg-list">
+            <li><strong>Vitello Tonato</strong>Gebraden kalfsvlees met tonijnsaus en rucola</li>
+            <li><strong>Antipasto Misto</strong>Variatie van vleeswaren, kazen, gegrilde groenten en olijven</li>
+            <li><strong>Salade Frutti di Mare</strong>Salade van diverse zeevruchten</li>
+            <li><strong>Lasagna Tradizionali</strong>Lasagna Bolognese da Silvano</li>
+            <li><strong>Pollo alla Silvano</strong>Kipfilet gevuld met pecorino en pancetta</li>
+            <li><strong>Gamberoni all'Ortigia</strong>Grote garnalen in tomatensaus</li>
+            <li><strong>Patate al Forno</strong>Gekruide aardappelen uit de oven met verse tomaten</li>
+            <li><strong>Dolci</strong>Verschillende gemengde zoetigheden, feestelijk gepresenteerd</li>
+          </ul>
+        </details>
         <p class="pkg-note">Geserveerd met diverse soorten brood en huisgemaakte tapenades.</p>
       </div>
     </div>
