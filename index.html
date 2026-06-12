@@ -730,15 +730,36 @@
     mobileMenu.classList.toggle('open');
     document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
   });
-  function togglePanini() {
+  // Single source of truth for the two independent controls
+  let paniniShowAll = false;     // "Bekijk alle 25 panini" expanded?
+  let vegFilterActive = false;   // "Alleen vegetarisch" filter on?
+
+  function renderPanini() {
     const rest = document.getElementById('panini-rest');
-    const btn = document.getElementById('panini-toggle');
-    const isHidden = rest.style.display === 'none';
-    rest.style.display = isHidden ? 'grid' : 'none';
-    btn.textContent = isHidden ? 'Verberg extra panini ↑' : 'Bekijk alle 25 panini ↓';
+    const toggleBtn = document.getElementById('panini-toggle');
+
+    // The hidden "rest" group must be visible when filtering (veg items live there too)
+    // or when the user has explicitly expanded the full list.
+    rest.style.display = (vegFilterActive || paniniShowAll) ? 'grid' : 'none';
+
+    // Per-card visibility: when filtering, only vegetarian cards show.
+    document.querySelectorAll('#panini-featured .chalk-card, #panini-rest .chalk-card').forEach(card => {
+      const tag = card.querySelector('.chalk-tag');
+      const isVeg = !!tag && tag.textContent.trim() === 'Vegetarisch';
+      card.style.display = (vegFilterActive && !isVeg) ? 'none' : '';
+    });
+
+    // The "show all" toggle is meaningless while filtering (filter already spans both groups),
+    // so hide it; otherwise show it with the correct label.
+    toggleBtn.parentElement.style.display = vegFilterActive ? 'none' : '';
+    toggleBtn.textContent = paniniShowAll ? 'Verberg extra panini ↑' : 'Bekijk alle 25 panini ↓';
   }
 
-  let vegFilterActive = false;
+  function togglePanini() {
+    paniniShowAll = !paniniShowAll;
+    renderPanini();
+  }
+
   function toggleVegFilter() {
     vegFilterActive = !vegFilterActive;
     const btn = document.getElementById('veg-filter-toggle');
@@ -746,19 +767,7 @@
     btn.setAttribute('aria-pressed', String(vegFilterActive));
     check.style.display = vegFilterActive ? 'block' : 'none';
     btn.style.background = vegFilterActive ? 'rgba(196,146,42,0.15)' : 'none';
-
-    // Make sure the full panini list is expanded so hidden vegetarian items become visible
-    const rest = document.getElementById('panini-rest');
-    const paniniBtn = document.getElementById('panini-toggle');
-    if (vegFilterActive && rest.style.display === 'none') {
-      rest.style.display = 'grid';
-      paniniBtn.textContent = 'Verberg extra panini ↑';
-    }
-
-    document.querySelectorAll('#panini-featured .chalk-card, #panini-rest .chalk-card').forEach(card => {
-      const isVeg = !!card.querySelector('.chalk-tag') && card.querySelector('.chalk-tag').textContent.trim() === 'Vegetarisch';
-      card.style.display = (vegFilterActive && !isVeg) ? 'none' : '';
-    });
+    renderPanini();
   }
 
   // Swap buffet image once Higgsfield job is ready
