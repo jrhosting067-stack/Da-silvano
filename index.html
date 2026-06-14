@@ -11,7 +11,7 @@
   :root {
     --black: #080808;
     --ivory: #f2ece0;
-    --ivory-dim: #a89f8e;
+    --ivory-dim: #c8bca6;
     --gold: #c4922a;
     --gold-light: #e8b84b;
     --chalk: #1a1a1a;
@@ -182,7 +182,7 @@
   footer { padding: 3rem clamp(2rem, 10vw, 12rem); border-top: 1px solid rgba(242,236,224,0.08); display: flex; justify-content: space-between; align-items: center; }
   .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ivory-dim); }
   .footer-logo span { color: var(--gold); }
-  .footer-copy { font-size: 0.7rem; letter-spacing: 0.1em; color: rgba(242,236,224,0.2); }
+  .footer-copy { font-size: 0.7rem; letter-spacing: 0.1em; color: rgba(242,236,224,0.4); }
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -665,6 +665,7 @@
       <div><span class="contact-label">Adres</span><span class="contact-address">Lange Noordstraat 26<br>4331 AC Middelburg</span></div>
       <div><span class="contact-label">Email</span><a href="mailto:info@dasilvano.nl" class="contact-value">info@dasilvano.nl</a></div>
       <div><span class="contact-label">Telefoon</span><a href="tel:0620900900" class="contact-value">06 — 2090 0900</a></div>
+      <div><span class="contact-label">Volg ons</span><a href="https://www.instagram.com/dasilvano_middelburg/" target="_blank" rel="noopener" class="contact-value" style="display:inline-flex; align-items:center; gap:0.6rem;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>Instagram</a></div>
     </div>
   </div>
 </section>
@@ -682,6 +683,7 @@
 
 <footer>
   <div class="footer-logo">Da <span>Silvano</span></div>
+  <a href="https://www.instagram.com/dasilvano_middelburg/" target="_blank" rel="noopener" aria-label="Instagram" style="display:inline-flex; align-items:center; gap:0.5rem; margin-top:0.75rem; color:var(--ivory-dim); text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ivory-dim)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg><span style="font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase;">@dasilvano_middelburg</span></a>
   <a href="catering.html" style="display:inline-block; margin-top:0.75rem; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-light); text-decoration:none;">Catering Pakketten →</a>
   <div class="footer-copy" style="margin-top:0.75rem;">© 2025 Da Silvano · Middelburg · Alle rechten voorbehouden</div>
 </footer>
