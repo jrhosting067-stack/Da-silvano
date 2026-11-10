@@ -1,0 +1,29 @@
+{
+  "redirects": [
+    {
+      "source": "/kerstmenu",
+      "destination": "/kerstmenu.html",
+      "permanent": false
+    },
+    {
+      "source": "/kerstmenu/",
+      "destination": "/kerstmenu.html",
+      "permanent": false
+    },
+    {
+      "source": "/kerstmenu/bestellen",
+      "destination": "/kerstmenu.html#bestellen",
+      "permanent": false
+    },
+    {
+      "source": "/kerstmenu/bestellen/",
+      "destination": "/kerstmenu.html#bestellen",
+      "permanent": false
+    }
+  ],
+  "functions": {
+    "api/order.js": {
+      "includeFiles": "kerst-config.json"
+    }
+  }
+}

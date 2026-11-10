@@ -198,6 +198,7 @@
   @media (max-width: 480px) {
     .nav-logo { font-size: 1.1rem; }
   }
+  [data-kerst][hidden] { display: none !important; }
 </style>
 </head>
 <body>
@@ -209,6 +210,7 @@
   <ul class="nav-links">
     <li><a href="index.html#panini">Panini</a></li>
     <li><a href="catering.html" class="active">Catering</a></li>
+    <li data-kerst hidden><a href="kerstmenu.html" style="color:var(--gold-light);">Kerstmenu</a></li>
     <li><a href="index.html#hours">Openingstijden</a></li>
     <li><a href="index.html#order">Bestellen</a></li>
   </ul>
@@ -221,6 +223,7 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html#panini" onclick="closeMenu()">Menu</a>
   <a href="catering.html" onclick="closeMenu()">Catering</a>
+  <a href="kerstmenu.html" onclick="closeMenu()" data-kerst hidden>Kerstmenu</a>
   <a href="index.html#hours" onclick="closeMenu()">Openingstijden</a>
   <a href="index.html#order" onclick="closeMenu()">Bestellen</a>
   <div class="mobile-contact">
@@ -415,5 +418,15 @@
   }
 </script>
 
+<script>
+  /* Kerstmenu: show nav item + banner from showFrom; only hidden automatically if hideAfter is set (kerst-config.json) */
+  fetch('kerst-config.json', { cache: 'no-cache' }).then(r => r.json()).then(c => {
+    const t = new Date();
+    const show = t >= new Date(c.showFrom) && (!c.hideAfter || t <= new Date(c.hideAfter));
+    document.querySelectorAll('[data-kerst]').forEach(el => { el.hidden = !show; });
+    const txt = document.getElementById('kerstBannerText');
+    if (txt && (c.soldOut || t > new Date(c.deadline))) txt.textContent = c.soldOut ? 'uitverkocht — bekijk het menu' : 'bestellen is gesloten — bekijk het menu';
+  }).catch(() => {});
+</script>
 </body>
 </html>

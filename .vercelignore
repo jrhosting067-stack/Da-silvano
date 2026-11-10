@@ -1,0 +1,8 @@
+# Local testing tools and review copies — never deployed
+.env
+_outbox/
+kerstmenu-en.html
+dev-server.mjs
+send-test.mjs
+.claude/
+README.md

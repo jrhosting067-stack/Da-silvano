@@ -1,0 +1,51 @@
+{
+  "_note": "Kerstmenu 2026. Answers from Silvano 2026-11-11: customer chooses dessert; prices shown; vega same price, noted in remarks; pay at pickup. Still open: order inbox, photo. hideAfter null = banner/nav item never auto-removed (remove by hand after Christmas).",
+  "year": 2026,
+  "menuName": "Lazy Christmas 2.0",
+  "pricePerPerson": 56.5,
+  "minPersons": 2,
+  "maxPersons": 40,
+  "deadline": "2026-12-18T23:59:00+01:00",
+  "showFrom": "2026-11-01T00:00:00+01:00",
+  "hideAfter": null,
+  "pickupDays": [
+    "2026-12-24",
+    "2026-12-25",
+    "2026-12-26"
+  ],
+  "pickupTime": "12:00 – 14:00",
+  "soldOut": false,
+  "dessertChoice": true,
+  "desserts": [
+    {
+      "id": "limoncello",
+      "name": "Torta limoncello"
+    },
+    {
+      "id": "pistachio",
+      "name": "Torta pistachio"
+    }
+  ],
+  "addons": [
+    {
+      "id": "limoncello",
+      "name": "Huisgemaakte limoncello",
+      "desc": "Fles limoncello, gemaakt van echte citroenen uit Sorrento",
+      "unit": "fles",
+      "price": 23.95,
+      "max": 10
+    },
+    {
+      "id": "panettone",
+      "name": "Panettone",
+      "desc": "De klassieke Italiaanse kerstcake",
+      "unit": "stuk",
+      "price": 34.95,
+      "max": 10
+    }
+  ],
+  "paymentNote": "U betaalt bij het ophalen in de winkel.",
+  "orderEmail": "info@dasilvano.nl",
+  "phone": "06 — 2090 0900",
+  "phoneHref": "tel:0620900900"
+}

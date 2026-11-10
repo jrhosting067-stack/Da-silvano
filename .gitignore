@@ -2,3 +2,7 @@
 Thumbs.db
 node_modules/
 .env
+_outbox/
+
+# English review copy (local only)
+kerstmenu-en.html

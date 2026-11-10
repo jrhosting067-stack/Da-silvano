@@ -315,6 +315,15 @@
     /* Tighter cat buttons */
     .cat-btn { padding: 0.8rem 1rem; font-size: 0.6rem; }
   }
+  /* KERSTMENU BANNER */
+  [data-kerst][hidden] { display: none !important; }
+  .kerst-banner { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.6rem 1.25rem; padding: 1.4rem 1.5rem; text-decoration: none; color: var(--ivory); text-align: center;
+    background: linear-gradient(90deg, #3a0c12 0%, #8e1f2a 50%, #3a0c12 100%); border-top: 1px solid rgba(232,184,75,0.35); border-bottom: 1px solid rgba(232,184,75,0.35); transition: filter 0.3s; }
+  .kerst-banner:hover { filter: brightness(1.12); }
+  .kerst-banner .kb-star { color: var(--gold-light); font-size: 0.9rem; }
+  .kerst-banner .kb-tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold-light); }
+  .kerst-banner .kb-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.45rem; }
+  .kerst-banner .kb-cta { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; border-bottom: 1px solid var(--gold-light); padding-bottom: 0.2rem; }
 </style>
 </head>
 <body>
@@ -326,6 +335,7 @@
   <ul class="nav-links">
     <li><a href="#panini">Panini</a></li>
     <li><a href="catering.html">Catering</a></li>
+    <li data-kerst hidden><a href="kerstmenu.html" style="color:var(--gold-light);">Kerstmenu</a></li>
     <li><a href="#hours">Openingstijden</a></li>
     <li><a href="#order">Bestellen</a></li>
   </ul>
@@ -338,6 +348,7 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="#panini" onclick="closeMenu()">Menu</a>
   <a href="catering.html" onclick="closeMenu()">Catering</a>
+  <a href="kerstmenu.html" onclick="closeMenu()" data-kerst hidden>Kerstmenu</a>
   <a href="#hours" onclick="closeMenu()">Openingstijden</a>
   <a href="#order" onclick="closeMenu()">Bestellen</a>
   <div class="mobile-contact">
@@ -359,6 +370,15 @@
   </div>
   <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
+
+<!-- KERSTMENU BANNER (seasonal, see kerst-config.json) -->
+<a class="kerst-banner" href="kerstmenu.html" data-kerst hidden>
+  <span class="kb-star">✦</span>
+  <span class="kb-tag">Kerstmenu 2026</span>
+  <span class="kb-title">Lazy Christmas 2.0</span>
+  <span class="kb-cta" id="kerstBannerText">bestel t/m 18 december →</span>
+  <span class="kb-star">✦</span>
+</a>
 
 <!-- INTRO -->
 <section class="intro" id="about">
@@ -784,6 +804,16 @@
     mobileMenu.classList.remove('open');
     document.body.style.overflow = '';
   }
+</script>
+<script>
+  /* Kerstmenu: show nav item + banner from showFrom; only hidden automatically if hideAfter is set (kerst-config.json) */
+  fetch('kerst-config.json', { cache: 'no-cache' }).then(r => r.json()).then(c => {
+    const t = new Date();
+    const show = t >= new Date(c.showFrom) && (!c.hideAfter || t <= new Date(c.hideAfter));
+    document.querySelectorAll('[data-kerst]').forEach(el => { el.hidden = !show; });
+    const txt = document.getElementById('kerstBannerText');
+    if (txt && (c.soldOut || t > new Date(c.deadline))) txt.textContent = c.soldOut ? 'uitverkocht — bekijk het menu' : 'bestellen is gesloten — bekijk het menu';
+  }).catch(() => {});
 </script>
 </body>
 </html>
